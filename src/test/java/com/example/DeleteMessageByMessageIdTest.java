@@ -45,7 +45,7 @@ public class DeleteMessageByMessageIdTest {
      * 
      * Expected Response:
      *  Status Code: 200
-     *  Response Body: JSON representation of the message that was deleted
+     *  Response Body: count of rows modified (should only modify a single row)
      */
     @Test
     public void deleteMessageGivenMessageIdMessageFound() throws IOException, InterruptedException {
@@ -76,7 +76,7 @@ public class DeleteMessageByMessageIdTest {
         HttpResponse<String> response = webClient.send(request, HttpResponse.BodyHandlers.ofString());
         int status = response.statusCode();
         Assertions.assertEquals(200, status, "Expected Status Code 200 - Actual Code was: " + status);
-        Integer actualResult = objectMapper.readValue(response.body().toString(), Integer.class);
-        Assertions.assertTrue(actualResult.equals(0), "Expected to modify 0 rows, but actually modified " + actualResult + " row(s).");
+        String actualResult = response.body().toString();
+        Assertions.assertTrue(actualResult.equals(""), "Expected empty response body, but actually " + actualResult + ".");
     }
 }
